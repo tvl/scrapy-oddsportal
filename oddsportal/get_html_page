@@ -1,0 +1,10 @@
+#!/bin/bash
+DATE="$(date +'%Y%M%D')"
+
+echo $DATE 
+
+#chromium-browser --headless --proxy-server="socks://localhost:8118" --dump-dom \
+#    http://www.oddsportal.com/matches/soccer/ > today.html
+chromium-browser --headless --proxy-server=localhost:8118 --dump-dom \
+    http://www.oddsportal.com/matches/soccer/ > today.html
+

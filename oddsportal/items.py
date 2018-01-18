@@ -5,10 +5,47 @@
 # See documentation in:
 # http://doc.scrapy.org/en/latest/topics/items.html
 
-import scrapy
+from scrapy import Item, Field
 
 
-class OddsportalItem(scrapy.Item):
+
+class UnogoalItem(Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass
+
+class Match(Item):
+    id = Field()
+    datetime = Field()
+    competition_id = Field()
+    fifa_id = Field()
+    home_team_id = Field()
+    home_team = Field()
+    away_team_id = Field()
+    away_team = Field()
+    home = Field()
+    draw = Field()
+    away = Field()
+    hts = Field()
+    fts = Field()
+    updated = Field()
+
+class Odd(Item):
+    id = Field()
+    datetime = Field()
+    competition_id = Field()
+    fifa_id = Field()
+    home_team_id = Field()
+    home_team = Field()
+    away_team_id = Field()
+    away_team = Field()
+    home = Field()
+    draw = Field()
+    away = Field()
+    #hts = Field()
+    score = Field()
+    fts = Field()
+    odds = Field()
+    updated = Field()
+
+
