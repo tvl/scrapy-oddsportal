@@ -30,24 +30,41 @@ class OddsSpider(Spider):
         for row in rows:
             line = row.xpath('td//text()').extract()
             if len(line) == 0:
+                area, competition = row.xpath('th/a/text()').extract()
+                continue
+            if line[-1] == '-':
                 continue
             item = Odd()
-            item['datetime'] = line[0]
-            if len(line) == 6:
-                item['home_team'], item['away_team'] = line[1].split(' - ')
+            item['id'] = 0
+            item['datetime'] = '{} {}:00'.format(date.today(),line[0])
+            item['area'] = area
+            item['competition'] = competition
             if line[1] == "'":
+                item['datetime'] = (date.today())
                 item['home_team'], item['away_team'] = line[2].split(' - ')
-                item['score'] = line[-5]
-
+                #item['score'] = line[-5]
+            elif line[1] == '\xa0':
+                item['home_team'], item['away_team'] = line[2].split(' - ')
+                #item['score'] = line[-5]
+            elif line[1][-3:] == ' - ':
+                item['home_team'] = line[1][:-3]
+                item['away_team'] = line[2]
+                #item['score'] = line[-5]
+            elif line[2][:3] == ' - ':
+                item['home_team'] = line[1]
+                item['away_team'] = line[2][3:]
+                #item['score'] = line[-5]
+            else:
+                item['home_team'], item['away_team'] = line[1].split(' - ')
+                #item['score'] = line[-5]
             item['home'] = line[-4]
             item['draw'] = line[-3]
             item['away'] = line[-2]
             item['odds'] = line[-1]
-
             item['updated'] = datetime.utcnow().isoformat(' ')
             yield item
             items.append(item)
-    #return items
+        #return items
         #self.log('URL: {}'.format(response.url))
 
 
