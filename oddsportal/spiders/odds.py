@@ -9,7 +9,8 @@ import re
 class OddsSpider(Spider):
     name = "odds"
     #allowed_domains = ["http://data.unogoal.me"]
-    start_urls = ['file:///home/tvl/dev/scrapy-oddsportal/oddsportal/today.html']
+    start_urls = ['file:///home/tvl/dev/scrapy-oddsportal/oddsportal/today.html',
+            'file:///home/tvl/dev/scrapy-oddsportal/oddsportal/tomorrow.html']
     params = {
         "sport": "soccer",
         "page": "match",
@@ -27,6 +28,10 @@ class OddsSpider(Spider):
     def parse(self, response):
         items = []
         rows = response.xpath('//table[@class=" table-main"]//tr')
+        if response.url.split('/')[-1] == 'today.html':
+            odds_date = date.today()
+        elif response.url.split('/')[-1] == 'tomorrow.html':
+            odds_date = date.today() + timedelta(days=1)
         for row in rows:
             line = row.xpath('td//text()').extract()
             if len(line) == 0:
@@ -36,11 +41,11 @@ class OddsSpider(Spider):
                 continue
             item = Odd()
             item['id'] = 0
-            item['datetime'] = '{} {}:00'.format(date.today(),line[0])
+            item['datetime'] = '{} {}:00'.format(odds_date,line[0])
             item['area'] = area
             item['competition'] = competition
             if line[1] == "'":
-                item['datetime'] = (date.today())
+                item['datetime'] = odds_date
                 item['home_team'], item['away_team'] = line[2].split(' - ')
                 #item['score'] = line[-5]
             elif line[1] == '\xa0':

@@ -1,10 +1,11 @@
 #!/bin/bash
-DATE="$(date +'%F')"
+TODAY="$(date --date=today +'%Y%m%d')"
+TOMORROW="$(date --date=tomorrow +'%Y%m%d')"
 
-echo $DATE 
+echo "Dates $TODAY, $TOMORROW"
 
-#chromium-browser --headless --proxy-server="socks://localhost:8118" --dump-dom \
-#    http://www.oddsportal.com/matches/soccer/ > today.html
-chromium-browser --headless  --dump-dom \
-     http://www.oddsportal.com/matches/soccer/ > today.html
+chromium-browser --headless --proxy-server="socks://127.0.0.1:9050" --dump-dom \
+    http://www.oddsportal.com/matches/soccer/$TODAY/ > today.html
+chromium-browser --headless --proxy-server="socks://127.0.0.1:9050" --dump-dom \
+    http://www.oddsportal.com/matches/soccer/$TOMORROW/ > tomorrow.html
 
