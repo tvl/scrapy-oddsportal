@@ -9,8 +9,8 @@ import re
 class OddsSpider(Spider):
     name = "odds"
     #allowed_domains = ["http://data.unogoal.me"]
-    start_urls = ['file:///home/tvl/dev/scrapy-oddsportal/oddsportal/today.html',
-            'file:///home/tvl/dev/scrapy-oddsportal/oddsportal/tomorrow.html']
+    start_urls = ['file:///home/tvl/src/scrapy-oddsportal/oddsportal/today.html',
+            'file:///home/tvl/src/scrapy-oddsportal/oddsportal/tomorrow.html']
     params = {
         "sport": "soccer",
         "page": "match",
